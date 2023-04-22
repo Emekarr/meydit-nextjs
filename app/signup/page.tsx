@@ -1,10 +1,13 @@
 "use client";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useState } from "react";
+import UserRequests from "../requests/user";
+import ShowAlertBox, { AlertType } from "../reuseables/alertBox";
+import { useRouter } from "next/navigation";
 
-interface SignupFields {
+export interface SignupFields {
   email: string;
   password: string;
   phone: string;
@@ -13,6 +16,7 @@ interface SignupFields {
 }
 
 const SignUp = () => {
+  const router = useRouter();
   const [formEntry, updateFormEntry] = useState<SignupFields>({
     email: "",
     password: "",
@@ -20,6 +24,12 @@ const SignUp = () => {
     lastName: "",
     phone: "",
   });
+
+  const [displayAlert, updateDisplayAlert] = useState<boolean>(false);
+  const [alertMsg, updateAlertMsg] = useState<
+    { msg: string; type: AlertType }[]
+  >([]);
+
   const handleUpdateFormEntry = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -49,32 +59,74 @@ const SignUp = () => {
           className={styles.formField}
           label="email"
           variant="outlined"
+          name="email"
         />
         <TextField
           onChange={handleUpdateFormEntry}
           className={styles.formField}
           label="phone"
           variant="outlined"
+          name="phone"
         />
         <TextField
           onChange={handleUpdateFormEntry}
           className={styles.formField}
           label="first name"
           variant="outlined"
+          name="firstName"
         />
         <TextField
           onChange={handleUpdateFormEntry}
           className={styles.formField}
           label="last name"
           variant="outlined"
+          name="lastName"
         />
         <TextField
           onChange={handleUpdateFormEntry}
           className={styles.formField}
           label="password"
           variant="outlined"
+          name="password"
         />
-        <Button variant="contained">Sign Up</Button>
+        <Button
+          variant="contained"
+          onClick={async () => {
+            const response = await UserRequests.createAccount(formEntry);
+            if (!response.success) {
+              if (response.errors) {
+                response.errors.forEach((e) => {
+                  updateAlertMsg([
+                    ...alertMsg,
+                    { msg: e, type: AlertType.error },
+                  ]);
+                });
+              } else {
+                updateAlertMsg([
+                  ...alertMsg,
+                  { msg: response.message, type: AlertType.error },
+                ]);
+              }
+              updateDisplayAlert(!displayAlert);
+            } else {
+              localStorage.setItem("profile", JSON.stringify(response.body));
+              router.push("/dashboard");
+            }
+          }}
+        >
+          Sign Up
+        </Button>
+        {typeof displayAlert === "boolean" && (
+          <Stack
+            className={styles.errStack}
+            sx={{ width: "100%", height: "100%" }}
+            spacing={3}
+          >
+            {alertMsg.map((m, i) => {
+              return <ShowAlertBox key={i} message={m.msg} type={m.type} />;
+            })}
+          </Stack>
+        )}
       </Box>
     </div>
   );
