@@ -100,9 +100,20 @@ const JobTile = (props: JobTileProps) => {
       >
         see more
       </Button>
-      <Button className={styles.makeQuote} onClick={handleClickOpen}>
-        make quote
-      </Button>
+      {localStorage.getItem("profile-type") === "user" ? (
+        <Button
+          className={styles.makeQuote}
+          onClick={() => {
+            router.push("/quotes");
+          }}
+        >
+          see quotes
+        </Button>
+      ) : (
+        <Button className={styles.makeQuote} onClick={handleClickOpen}>
+          make quote
+        </Button>
+      )}
 
       <Dialog className={styles.createJobForm} open={open}>
         <DialogTitle>Create New Job Listing</DialogTitle>
