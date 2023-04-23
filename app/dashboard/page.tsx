@@ -104,12 +104,14 @@ const Dashboard = () => {
     updateJobs((data) => [...data, ...response.body!]);
   };
   useEffect(() => {
-    let cachedUser = localStorage.getItem("profile");
-    if (!cachedUser) {
-      router.push("/login");
-      return;
+    if (typeof window !== "undefined") {
+      let cachedUser = localStorage.getItem("profile");
+      if (!cachedUser) {
+        router.push("/login");
+        return;
+      }
+      updateUser(JSON.parse(cachedUser ?? ""));
     }
-    updateUser(JSON.parse(cachedUser ?? ""));
 
     (async () => {
       await loadJobs("");
@@ -128,7 +130,8 @@ const Dashboard = () => {
           <Typography variant="h4" className={styles.jobHeaderText}>
             Your jobs
           </Typography>
-          {localStorage.getItem("profile-type") === "user" ? (
+          {typeof window !== "undefined" &&
+          localStorage.getItem("profile-type") === "user" ? (
             <div className={styles.createJobBtn} onClick={handleClickOpen}>
               Add Job <PlusOne />
             </div>
