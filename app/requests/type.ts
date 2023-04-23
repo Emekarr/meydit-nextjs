@@ -15,6 +15,14 @@ export interface UserType {
   updated_at: string;
 }
 
+export interface MakerType {
+  name: string;
+  email: string;
+  id: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface JobType {
   id: string;
   created_at: string;

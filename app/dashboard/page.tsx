@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { JobType, UserType } from "../requests/type";
+import { JobType, MakerType, UserType } from "../requests/type";
 import {
   Button,
   Dialog,
@@ -40,7 +40,7 @@ interface JobFilters {
 
 const Dashboard = () => {
   const router = useRouter();
-  const [user, updateUser] = useState<UserType | null>(null);
+  const [user, updateUser] = useState<any | null>(null);
   const [open, setOpen] = useState(false);
   const [formEntry, updateFormEntry] = useState<JobFields>({
     postCode: "",
@@ -100,7 +100,7 @@ const Dashboard = () => {
     if (!response.success) {
       return;
     }
-    updateJobs((data) => [...data, ...(response.body!)]);
+    updateJobs((data) => [...data, ...response.body!]);
   };
   useEffect(() => {
     let cachedUser = localStorage.getItem("profile");
@@ -118,7 +118,9 @@ const Dashboard = () => {
   return (
     <div className={styles.root}>
       <header className={styles.header}>
-        <Typography variant="h5">Welcome back {user?.first_name}</Typography>
+        <Typography variant="h5">
+          Welcome back {user?.first_name ?? user.name}
+        </Typography>
       </header>
       <div className={styles.body}>
         <div className={styles.jobHeader}>
@@ -137,7 +139,7 @@ const Dashboard = () => {
                 key={i}
                 budget={j.budget}
                 type={j.type}
-                imageURLs={j.images_url??[]}
+                imageURLs={j.images_url ?? []}
                 state={j.state}
               />
             );

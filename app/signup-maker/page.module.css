@@ -1,0 +1,26 @@
+.root {
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  flex-direction: column;
+}
+
+.welcomeText {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.highlight {
+  color: blue;
+}
