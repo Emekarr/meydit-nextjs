@@ -83,6 +83,7 @@ const LoginMaker = () => {
               updateDisplayAlert(!displayAlert);
             } else {
               localStorage.setItem("profile", JSON.stringify(response.body));
+              localStorage.setItem("profile-type", "maker");
               router.push("/dashboard");
             }
           }}

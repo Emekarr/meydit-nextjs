@@ -110,6 +110,7 @@ const SignUp = () => {
               updateDisplayAlert(!displayAlert);
             } else {
               localStorage.setItem("profile", JSON.stringify(response.body));
+              localStorage.setItem("profile-type", "user");
               router.push("/dashboard");
             }
           }}

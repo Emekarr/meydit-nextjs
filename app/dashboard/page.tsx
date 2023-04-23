@@ -17,6 +17,7 @@ import {
 import JobTile from "../reuseables/jobTitle/JobTile";
 import { useRouter } from "next/navigation";
 import PlusOne from "@mui/icons-material/AddBox";
+import Speaker from "@mui/icons-material/Speaker";
 import JobRequests from "../requests/job";
 import ShowAlertBox, { AlertType } from "../reuseables/alertBox";
 
@@ -119,7 +120,7 @@ const Dashboard = () => {
     <div className={styles.root}>
       <header className={styles.header}>
         <Typography variant="h5">
-          Welcome back {user?.first_name ?? user.name}
+          Welcome back {user?.first_name ?? user?.name}
         </Typography>
       </header>
       <div className={styles.body}>
@@ -127,9 +128,20 @@ const Dashboard = () => {
           <Typography variant="h4" className={styles.jobHeaderText}>
             Your jobs
           </Typography>
-          <div className={styles.createJobBtn} onClick={handleClickOpen}>
-            Add Job <PlusOne />
-          </div>
+          {localStorage.getItem("profile-type") === "user" ? (
+            <div className={styles.createJobBtn} onClick={handleClickOpen}>
+              Add Job <PlusOne />
+            </div>
+          ) : (
+            <div
+              className={styles.viewQuotationsBtn}
+              onClick={() => {
+                router.push("/quotes");
+              }}
+            >
+              View Quotes <Speaker />
+            </div>
+          )}
         </div>
         <Stack className={styles.jobListing}>
           {" "}
