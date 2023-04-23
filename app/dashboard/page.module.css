@@ -1,0 +1,35 @@
+.root {
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 10vh;
+  width: 100vw;
+  padding: 0.4rem;
+  color: white;
+  background-color: #00aaff;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.body {
+  height: 90vh;
+  width: 100vw;
+}
+
+.jobListing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.jobHeader {
+  padding: 1rem;
+  color: black;
+}
