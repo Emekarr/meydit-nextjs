@@ -4,11 +4,17 @@ import styles from "./page.module.css";
 import { UserType } from "../requests/type";
 import { Stack, Typography } from "@mui/material";
 import JobTile from "../reuseables/jobTitle/JobTile";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
+  const router = useRouter();
   const [user, updateUser] = useState<UserType | null>(null);
   useEffect(() => {
-    const cachedUser = localStorage.getItem("profile");
+    let cachedUser = localStorage.getItem("profile");
+    if (!cachedUser) {
+      router.push("/login");
+      return;
+    }
     updateUser(JSON.parse(cachedUser ?? ""));
   }, []);
   return (
