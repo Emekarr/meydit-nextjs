@@ -151,6 +151,7 @@ const Dashboard = () => {
                 key={i}
                 budget={j.budget}
                 type={j.type}
+                id={j.id}
                 imageURLs={j.images_url ?? []}
                 state={j.state}
               />

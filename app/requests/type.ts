@@ -38,3 +38,13 @@ export interface JobType {
   description: string;
   budget: number;
 }
+
+export interface QuotationType {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  maker_id: string;
+  job_id: string;
+  price: number;
+  comment: string;
+}
