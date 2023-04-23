@@ -14,3 +14,19 @@ export interface UserType {
   created_at: string;
   updated_at: string;
 }
+
+export interface JobType {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  post_code: string;
+  state: string;
+  address: string;
+  type: string;
+  images_url: string[];
+  description: string;
+  budget: number;
+}

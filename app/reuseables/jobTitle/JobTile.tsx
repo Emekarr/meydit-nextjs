@@ -27,12 +27,7 @@ const JobTile = (props: JobTileProps) => {
   };
   const [currentSlide, updateSlide] = useState<number>(0);
   return (
-    <div
-      className={styles.tile}
-      onClick={() => {
-        router.push("/jobDetails");
-      }}
-    >
+    <div className={styles.tile}>
       <div className={styles.tileSlider}>
         <div onClick={goPrevious}>
           <ArrowLeft className={styles.leftSliderArrow} />
@@ -50,6 +45,13 @@ const JobTile = (props: JobTileProps) => {
       </Typography>
       <Typography>Type : {props.type.substring(0, 15)}</Typography>
       <Typography>Location : {props.state.substring(0, 15)}</Typography>
+      <Typography
+        onClick={() => {
+          router.push("/jobDetails");
+        }}
+      >
+        see more
+      </Typography>
     </div>
   );
 };

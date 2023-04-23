@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { UserType } from "../requests/type";
+import { JobType, UserType } from "../requests/type";
 import {
   Button,
   Dialog,
@@ -32,6 +32,12 @@ export interface JobFields {
   budget: number | null;
 }
 
+interface JobFilters {
+  state: string;
+  postcode: string;
+  type: string;
+}
+
 const Dashboard = () => {
   const router = useRouter();
   const [user, updateUser] = useState<UserType | null>(null);
@@ -47,6 +53,15 @@ const Dashboard = () => {
     description: "",
     budget: null,
   });
+
+  const [jobs, updateJobs] = useState<JobType[]>([]);
+
+  const [filters, updateFilters] = useState<JobFilters>({
+    type: "",
+    state: "",
+    postcode: "",
+  });
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -74,6 +89,19 @@ const Dashboard = () => {
     }
     updateFormEntry((data) => ({ ...data, [name]: value }));
   };
+  const loadJobs = async (lastID: string) => {
+    const response = await JobRequests.fetchJobs(
+      lastID,
+      20,
+      filters.state,
+      filters.postcode,
+      filters.type
+    );
+    if (!response.success) {
+      return;
+    }
+    updateJobs((data) => [...data, ...(response.body!)]);
+  };
   useEffect(() => {
     let cachedUser = localStorage.getItem("profile");
     if (!cachedUser) {
@@ -81,6 +109,10 @@ const Dashboard = () => {
       return;
     }
     updateUser(JSON.parse(cachedUser ?? ""));
+
+    (async () => {
+      await loadJobs("");
+    })();
   }, []);
 
   return (
@@ -97,7 +129,20 @@ const Dashboard = () => {
             Add Job <PlusOne />
           </div>
         </div>
-        <Stack className={styles.jobListing}></Stack>
+        <Stack className={styles.jobListing}>
+          {" "}
+          {jobs.map((j, i) => {
+            return (
+              <JobTile
+                key={i}
+                budget={j.budget}
+                type={j.type}
+                imageURLs={j.images_url??[]}
+                state={j.state}
+              />
+            );
+          })}
+        </Stack>
       </div>
       <Dialog className={styles.createJobForm} open={open}>
         <DialogTitle>Create New Job Listing</DialogTitle>

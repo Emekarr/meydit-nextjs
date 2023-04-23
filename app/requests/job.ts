@@ -1,6 +1,6 @@
 import { JobFields } from "../dashboard/page";
 import RemoteRepository from "../services/network/RemoteRepository";
-import { ServerResponse } from "./type";
+import { JobType, ServerResponse } from "./type";
 
 export default abstract class JobRequests {
   static async createJob(
@@ -22,6 +22,30 @@ export default abstract class JobRequests {
             "Content-Type": "multipart/form-data",
           },
         });
+      return response;
+    } catch (err: any) {
+      return {
+        message: err.message,
+        success: false,
+        errors: null,
+        body: null,
+      };
+    }
+  }
+
+  static async fetchJobs(
+    lastID: string,
+    limit: number,
+    state: string | null,
+    postCode: string | null,
+    type: string | null
+  ) {
+    try {
+      const response: ServerResponse<JobType[] | null> =
+        await RemoteRepository.ns.get(
+          `/job?id=${lastID}&limit=${limit}&postcode=${postCode}&state=${state}&type=${type}&`,
+          {}
+        );
       return response;
     } catch (err: any) {
       return {
