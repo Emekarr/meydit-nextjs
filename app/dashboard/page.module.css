@@ -30,6 +30,26 @@
 }
 
 .jobHeader {
-  padding: 1rem;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
   color: black;
+}
+
+.jobHeaderText {
+  padding: 1rem;
+}
+
+.createJobBtn {
+  width: 20vw;
+  height: 10vh;
+  display: flex;
+  color: #00aaff;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.createJobFields {
+  margin: 0 0.1rem 0.5rem 0.1rem;
 }

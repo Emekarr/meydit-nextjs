@@ -27,20 +27,14 @@ export default abstract class UserRequests {
     try {
       const response: ServerResponse<UserType | null> =
         await RemoteRepository.ns.post("/user/login", payload, {});
-        console.log(response)
-        console.log('resss')
       return response;
     } catch (err: any) {
-      console.log('start')
-      console.log(err)
-      console.log(err.message)
       const pay = {
         message: err.message,
         success: false,
         errors: null,
         body: null,
       };
-      console.log("here oo", pay)
       return pay;
     }
   }

@@ -64,7 +64,6 @@ const Login = () => {
           variant="contained"
           onClick={async () => {
             const response = await UserRequests.loginUser(formEntry);
-            console.log('after', response)
             if (!response.success) {
               if (response.errors) {
                 response.errors.forEach((e) => {

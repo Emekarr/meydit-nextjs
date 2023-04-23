@@ -18,6 +18,7 @@ export default class AxiosService {
       timeout: this.timeOut,
       headers: this.headers,
     });
+    instance.defaults.withCredentials = true;
     instance.interceptors.request.use((config) => {
       const { url, method, baseURL, data } = config;
       console.log(
